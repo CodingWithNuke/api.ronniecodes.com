@@ -9,6 +9,7 @@ const cors = require('cors');
 const app = express();
 
 app
+  .set('trust proxy', 1)
   .use(json())
   .use(urlencoded({ extended: true }))
   .use(helmet())
