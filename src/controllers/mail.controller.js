@@ -32,11 +32,7 @@ exports.send = async (req, res, next) => {
       from: `'${req.body.name}' <${process.env.MAIL_USER}>`,
       to: process.env.MAIL_USER,
       subject: `RonnieCodes.com Contact Form: ${req.body.subject}`,
-      text: `
-      <b>Email</b>: ${req.body.email}
-
-      ${req.body.body}
-      `
+      text: `Email: ${req.body.email}\n\n${req.body.body}`
     })
 
     return res.json({
