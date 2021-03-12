@@ -10,9 +10,21 @@ const transporter = nodemailer.createTransport({
 })
 
 exports.send = async (req, res, next) => {
-  if (!req.body.name || !req.body.subject || !req.body.body) {
+  if (!req.body.name) {
     res.status(411);
-    return next(new Error('Missing data.'))
+    return next(new Error('Name is required.'))
+  }
+  if (!req.body.email) {
+    res.status(411);
+    return next(new Error('Email is required.'))
+  }
+  if (!req.body.subject) {
+    res.status(411);
+    return next(new Error('Subject is required.'))
+  }
+  if (!req.body.body) {
+    res.status(411);
+    return next(new Error('Body is required.'))
   }
 
   try {
@@ -20,7 +32,11 @@ exports.send = async (req, res, next) => {
       from: `'${req.body.name}' <${process.env.MAIL_USER}>`,
       to: process.env.MAIL_USER,
       subject: `RonnieCodes.com Contact Form: ${req.body.subject}`,
-      text: req.body.body
+      text: `
+      <b>Email</b>: ${req.body.email}
+
+      ${req.body.body}
+      `
     })
 
     return res.json({
